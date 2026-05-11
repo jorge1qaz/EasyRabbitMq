@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  rabbitmq_service:
+    image: rabbitmq:4-management
+    container_name: mi_rabbitmq_local
+    hostname: rabbitmq_node
+    restart: unless-stopped
+    environment:
+      # 1. ¡Seguridad! Sobrescribimos el usuario guest/guest por defecto
+      RABBITMQ_DEFAULT_USER: admin_system
+      RABBITMQ_DEFAULT_PASS: Secreto123!
+    ports:
+      # 2. Mapeo de puertos (Host:Contenedor)
+      - "5672:5672"   # Puerto para la comunicación de las apps en .NET
+      - "15672:15672" # Puerto para el panel web de gestión
+    volumes:
+      # 3. Persistencia de datos
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_log:/var/log/rabbitmq
+
+# 4. Declaración de volúmenes nombrados
+volumes:
+  rabbitmq_data:
+    name: mi_rabbitmq_data
+  rabbitmq_log:
+    name: mi_rabbitmq_log
