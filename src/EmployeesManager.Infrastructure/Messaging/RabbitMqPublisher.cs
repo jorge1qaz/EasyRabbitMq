@@ -6,7 +6,7 @@ public class RabbitMqPublisher(
     public async Task PublishAsync<T>(T message, string queueName, CancellationToken ct = default) 
         where T : class
     {
-        await using var connection = await persistentConnection.GetConnectionAsync(ct);
+        var connection = await persistentConnection.GetConnectionAsync(ct);
         await using var channel = await connection.CreateChannelAsync(cancellationToken: ct);
 
         await channel.QueueDeclareAsync(

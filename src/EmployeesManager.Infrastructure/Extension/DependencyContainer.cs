@@ -13,6 +13,7 @@ public static class DependencyContainer
         services.AddSingleton<IRabbitMqConnection, PersistentConnection>();
 
         services.AddScoped<IMessagePublisher, RabbitMqPublisher>();
+        services.AddTransient(typeof(IMessageConsumer<>), typeof(RabbitMqConsumer<>));
         
         return services;
     }

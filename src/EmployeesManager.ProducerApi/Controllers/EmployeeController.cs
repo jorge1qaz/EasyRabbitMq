@@ -1,4 +1,4 @@
-using EmployeesManager.Infrastructure.UseCases.Employee.CreateEmployeeUseCase;
+using EmployeesManager.Application.UseCases.Employee.CreateEmployeeUseCase;
 
 namespace EmployeesManager.ProducerApi.Controllers;
 
@@ -7,7 +7,7 @@ namespace EmployeesManager.ProducerApi.Controllers;
 public class EmployeeController(
     IMessagePublisher messagePublisher): ControllerBase
 {
-    private readonly string queueName = "employee_create_queue";
+    private readonly string queueName = "employee_created_queue";
     
     [HttpPost("Create")]
     public async Task<IActionResult> Create(
