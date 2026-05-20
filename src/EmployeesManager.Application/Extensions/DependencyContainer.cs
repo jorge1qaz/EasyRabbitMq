@@ -6,6 +6,7 @@ public static class DependencyContainer
         this IServiceCollection services)
     {
         services.AddScoped<IIntegrationEventHandler<EmployeeCreatedEvent>, EmployeeCreatedEventHandler>();
+        services.AddScoped<CreateEmployeeHandle>();
         
         return services;
     }

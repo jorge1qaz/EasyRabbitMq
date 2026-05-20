@@ -1,11 +1,10 @@
-using Microsoft.Extensions.Logging;
-
-namespace EmployeesManager.Application.UseCases.Employee.CreateEmployeeUseCase;
+namespace EmployeesManager.Application.UseCases.EmployeeUseCases.SendWelcomeEmail;
 
 public class EmployeeCreatedEventHandler(
     ILogger<EmployeeCreatedEventHandler> logger): IIntegrationEventHandler<EmployeeCreatedEvent>
 {
-    public async Task HandleAsync(EmployeeCreatedEvent messageStructure, CancellationToken token = default)
+    public async Task HandleAsync(
+        EmployeeCreatedEvent messageStructure, CancellationToken token = default)
     {
         logger.LogInformation("Evento recibido: EmployeeCreatedEvent");
         logger.LogInformation("Empleado: {MessageStructureName}", messageStructure.Name);

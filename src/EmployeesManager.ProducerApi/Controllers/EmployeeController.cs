@@ -1,10 +1,12 @@
-using EmployeesManager.Application.UseCases.Employee.CreateEmployeeUseCase;
+using EmployeesManager.Application.UseCases.EmployeeUseCases.CreateEmployee;
+using EmployeesManager.Application.UseCases.EmployeeUseCases.SendWelcomeEmail;
 
 namespace EmployeesManager.ProducerApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class EmployeeController(
+    CreateEmployeeHandle createEmployeeHandle,
     IMessagePublisher messagePublisher): ControllerBase
 {
     private readonly string queueName = "employee_created_queue";
@@ -13,14 +15,18 @@ public class EmployeeController(
     public async Task<IActionResult> Create(
         CreateEmployeeDto employeeDto, CancellationToken cancellationToken)
     {
-        var employeeId = Guid.NewGuid();
+        var createResponse = await createEmployeeHandle
+            .HandleAsync(employeeDto, cancellationToken);
+
+        if (!createResponse.Success) return Ok(createResponse);
+        
         var employeeEvent = new EmployeeCreatedEvent(
-            employeeId,
+            createResponse.Data,
             employeeDto.Name,
             employeeDto.Email,
             DateTime.Now);
-        
+            
         await messagePublisher.PublishAsync(employeeEvent, queueName, cancellationToken);
-        return Ok(new { Message = $"Empleado registrado y enviado a la cola. Empleado = {employeeEvent.Name}" });
+        return Ok(createResponse);
     }
 }

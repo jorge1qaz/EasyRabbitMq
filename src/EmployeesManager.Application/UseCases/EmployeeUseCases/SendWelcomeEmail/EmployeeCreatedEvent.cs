@@ -1,4 +1,4 @@
-namespace EmployeesManager.Application.Common.Events;
+namespace EmployeesManager.Application.UseCases.EmployeeUseCases.SendWelcomeEmail;
 
 public record EmployeeCreatedEvent(
     Guid Id,

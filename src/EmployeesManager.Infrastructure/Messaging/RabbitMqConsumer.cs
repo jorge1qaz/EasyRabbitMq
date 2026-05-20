@@ -1,7 +1,3 @@
-using System.Text;
-using Microsoft.Extensions.Logging;
-using RabbitMQ.Client.Events;
-
 namespace EmployeesManager.Infrastructure.Messaging;
 
 public class RabbitMqConsumer<T>(
